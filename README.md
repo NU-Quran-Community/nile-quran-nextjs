@@ -1,9 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+First, update the backend url in .env.local file:
+Base_URL=Your_backend_url
 
-First, run the development server:
+Second, run the development server:
+to install the dependecies:
+npm i 
 
+to run the development server:
 ```bash
 npm run dev
 # or
@@ -13,6 +18,12 @@ pnpm dev
 # or
 bun dev
 ```
+Third,to build the the project:
+npm run build
+
+to test the build:
+npm start
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
