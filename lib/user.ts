@@ -1,5 +1,5 @@
 const API_BASE =
-  process.env.Base_URL ;
+  process.env.BASE_URL;
 interface types {
   first_name: string;
   last_name:string;

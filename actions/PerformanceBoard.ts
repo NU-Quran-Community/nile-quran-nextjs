@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const API_BASE = process.env.Base_URL;
+const API_BASE = process.env.BASE_URL;
 
 interface User {
   id: number;

@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 const API_BASE =
-  process.env.Base_URL ;
+  process.env.BASE_URL;
 
 export async function getGoalOfTheMonth() {
   try {

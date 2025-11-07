@@ -5,39 +5,51 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 Follow these steps to set up the project locally.
 
 # 🧩 Prerequisites
+
 - nodejs 18+:
-install https://nodejs.org/en/download/
+  install https://nodejs.org/en/download/
+
 ---
+
 # ⚙️ Installation
-**1.** Clone the repository  
+
+**1.** Clone the repository
+
 ```bash
 git clone https://github.com/NU-Quran-Community/nile-quran-nextjs
 ```
 
-
 **2.** Navigate to the project folder
+
 ```bash
 cd nile-quran-nextjs
 ```
+
 **3.** Install dependencies
+
 ```bash
 npm install
 ```
+
 **4.** Set up environment variables
 
 Create a `.env.local` file in the root directory and add your values:
+
 ```bash
-Base_URL=Your_backend_url
+BASE_URL=Your_backend_url
 ```
+
 **5.** Run the development server
-```bash 
+
+```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 🧱 Build for Production
-```bash 
+
+```bash
 npm run build
 npm start
 ```

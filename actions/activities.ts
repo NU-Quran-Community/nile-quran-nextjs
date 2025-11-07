@@ -5,8 +5,8 @@ import { getWeekByOffset } from "@/lib/utils";
 import { cookies } from "next/headers";
 
 const API_BASE =
-  process.env.Base_URL;
-  type Activity = {
+  process.env.BASE_URL;
+type Activity = {
   id: number;
   category: number;
   date: string;
