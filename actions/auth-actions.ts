@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 const API_BASE =
-  process.env.Base_URL ;
+  process.env.BASE_URL;
 
 
 const COOKIE_NAME1 = "access";
