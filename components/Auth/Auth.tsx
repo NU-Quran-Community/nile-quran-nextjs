@@ -17,7 +17,7 @@ interface Props {
 export default function AuthForm({ mode }: Props) {
   
   return (
-    <div className=" w-[630px] flex flex-col items-center">
+    <div className=" w-[630px] flex z-30  flex-col items-center justify-center h-full">
       <p className={`text-[54px] text-[#043F2E] ${lalezar.className}`}>
         قرآن النيل
       </p>
@@ -25,20 +25,27 @@ export default function AuthForm({ mode }: Props) {
         <div className={`w-full flex ${tajawal.className}`}>
           <Link
             href={"/auth/?mode=signup"}
-            className={`w-1/2 h-[75px] ${mode==="signup"?"bg-[#043F2E] text-[#EBFFBD]":"bg-[#EBFFBD] text-[#043F2E]"} border-b border-[#043F2E] cursor-pointer flex justify-center items-center`}
+            className={`w-1/2 h-[75px] ${
+              mode === "signup"
+                ? "bg-[#043F2E] text-[#EBFFBD]"
+                : "bg-[#EBFFBD] text-[#043F2E]"
+            } border-b border-[#043F2E] cursor-pointer flex justify-center items-center`}
           >
             انشاء حساب
           </Link>
           <Link
             href={"/auth/?mode=login"}
-            className={`w-1/2 ${mode==="login"?"bg-[#043F2E] text-[#EBFFBD]":"bg-[#EBFFBD] text-[#043F2E]"} h-[75px] border-b border-[#043F2E] cursor-pointer flex justify-center items-center`}
+            className={`w-1/2 ${
+              mode === "login"
+                ? "bg-[#043F2E] text-[#EBFFBD]"
+                : "bg-[#EBFFBD] text-[#043F2E]"
+            } h-[75px] border-b border-[#043F2E] cursor-pointer flex justify-center items-center`}
           >
             تسجيل الدخول
           </Link>
         </div>
-              {mode === "login" ? <LoginForm />:<SignUpForm />  }
+        {mode === "login" ? <LoginForm /> : <SignUpForm />}
       </div>
-
     </div>
   );
 }

@@ -30,6 +30,17 @@ export default function SignUpForm() {
     >
       <div className="flex gap-3">
         <div className="w-1/2 flex  flex-col gap-3 items-end">
+          <label className="text-[#043F2E] text-[20px]f">الاسم الاخير</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            placeholder="الاسم الاخير"
+            dir="auto"
+            className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+          />
+        </div>
+        <div className="w-1/2 flex  flex-col gap-3 items-end">
           <label className="text-[#043F2E] text-[20px]f">الاسم الاول</label>
           <input
             type="text"
@@ -38,17 +49,6 @@ export default function SignUpForm() {
             placeholder="الاسم الاول"
             dir="auto"
             required
-            className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
-          />
-        </div>
-        <div className="w-1/2 flex  flex-col gap-3 items-end">
-          <label className="text-[#043F2E] text-[20px]f">الاسم الاخير</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            placeholder="الاسم الاخير"
-            dir="auto"
             className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
           />
         </div>

@@ -1,6 +1,8 @@
 "use server";
 
+import { getHijriMonthDays } from "@/lib/utils";
 import { cookies } from "next/headers";
+import { hijriToGregorian } from "@tabby_ai/hijri-converter";
 
 const API_BASE = process.env.Base_URL;
 
@@ -16,7 +18,6 @@ interface User {
   groups: string[];
 }
 
-// Updated to match actual API response
 interface Activity {
   id?: number;
   type?: string;
@@ -25,7 +26,7 @@ interface Activity {
 }
 
 interface LeaderboardItem {
-  user: number; // Just the user ID, not the full object
+  user: number;
   points: number;
   activities: Activity[];
 }
@@ -47,8 +48,21 @@ interface MappedLeaderboardUser {
 
 type APIResponse = LeaderboardItem[] | PaginatedResponse | LeaderboardItem;
 
-export async function getLeaderboardData() {
+
+export async function getLeaderboardData(year: number, month: number) {
   try {
+    const lastDay = getHijriMonthDays(year, month);
+    const startDate = hijriToGregorian({
+      year,
+      month,
+      day: 1,
+    });
+
+    const endDate = hijriToGregorian({
+      year,
+      month,
+      day: lastDay,
+    });
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("access");
 
@@ -56,22 +70,33 @@ export async function getLeaderboardData() {
       throw new Error("No access token found");
     }
 
-    const response = await fetch(`${API_BASE}api/v1/users/points/`, {
+    const start = `${startDate.year}-${String(startDate.month).padStart(
+      2,
+      "0",
+    )}-${String(startDate.day).padStart(2, "0")}`;
+    const end = `${endDate.year}-${String(endDate.month).padStart(
+      2,
+      "0",
+    )}-${String(endDate.day).padStart(2, "0")}`;
+    console.log("board",start,end);
+
+    const query = `?date_after=${start}&date_before=${end}`;
+    const result = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
         "Content-Type": "application/json",
       },
       cache: "no-store",
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
+    if (!result.ok) {
+      const errorText = await result.text();
       throw new Error(
-        `Failed to fetch leaderboard data: ${response.status} - ${errorText}`
+        `Failed to fetch leaderboard data: ${result.status} - ${errorText}`,
       );
     }
 
-    const data: APIResponse = await response.json();
+    const data: APIResponse = await result.json();
 
     console.log("API Response:", JSON.stringify(data, null, 2));
 
@@ -105,10 +130,9 @@ export async function getLeaderboardData() {
     const mappedData: MappedLeaderboardUser[] = await Promise.all(
       sortedResults.map(async (item) => {
         const userId = item.user;
-        
-        // Fetch user details
+
         const userDetailsResponse = await getUserDetails(userId);
-        
+
         if (userDetailsResponse.success && userDetailsResponse.user) {
           return {
             id: userDetailsResponse.user.id,
@@ -118,8 +142,7 @@ export async function getLeaderboardData() {
             groups: userDetailsResponse.user.groups || [],
           };
         }
-        
-        // Fallback if user details fetch fails
+
         return {
           id: userId,
           name: "مستخدم",
@@ -127,7 +150,7 @@ export async function getLeaderboardData() {
           points: item.points || 0,
           groups: [],
         };
-      })
+      }),
     );
 
     return {

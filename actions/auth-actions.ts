@@ -1,14 +1,11 @@
 "use server";
 
-
-import {  getUserRole, Login } from "@/lib/user";
+import { getUserRole, Login } from "@/lib/user";
 import createUser from "@/lib/user";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { jwtDecode, JwtPayload } from "jwt-decode";
-const API_BASE =
-  process.env.Base_URL ;
-
+const API_BASE = process.env.Base_URL;
 
 const COOKIE_NAME1 = "access";
 const COOKIE_NAME2 = "refresh";
@@ -21,11 +18,11 @@ const COOKIE_OPTIONS = {
 interface FormState {
   errors: {
     firstName?: string;
-  lastName?: string;
-  email?: string;
-  referrer?: string;
-  username?: string;
-  password?: string;
+    lastName?: string;
+    email?: string;
+    referrer?: string;
+    username?: string;
+    password?: string;
   };
 }
 interface SignupErrors {
@@ -41,14 +38,13 @@ export async function login(
   prevState: { errors: Record<string, string> },
   formData: FormData
 ) {
-
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 
   const existingUser = await Login(username, password);
 
   console.log(existingUser);
-  
+
   if (!existingUser.access) {
     return {
       errors: {
@@ -56,7 +52,7 @@ export async function login(
       },
     };
   }
-  
+
   if (existingUser.access) {
     const cookieStore = await cookies();
     // This will overwrite any old/invalid tokens
@@ -116,41 +112,40 @@ export async function checkTokenValidity() {
   const cookieStore = await cookies();
   const access = cookieStore.get("access");
   const refresh = cookieStore.get("refresh");
-    const groups = access ? await getUserRole(access.value) : undefined;
+  const user = access ? await getUserRole(access.value) : undefined;
   if (!refresh) {
     console.log("❌ No refresh token — user must log in again");
     return {
-      isValid:false,
-      groups:groups,
+      isValid: false,
+      user: user,
     };
   }
 
   if (access && !isAccessTokenExpired(access.value)) {
     console.log("✅ Access token still valid");
-     return {
-      isValid:true,
-      groups:groups,
+    return {
+      isValid: true,
+      user: user,
     };
   }
 
   try {
     await refreshAccessToken();
     console.log("🔄 Access token refreshed successfully");
-     return {
-      isValid:true,
-      groups:groups,
+    return {
+      isValid: true,
+      user: user,
     };
-  } catch  {
+  } catch {
     console.log("❌ Both tokens invalid — must log in again");
     // Don't delete cookies here - just return false
     // User will be redirected to /auth where login will overwrite them
-     return {
-      isValid:false,
-      groups:groups,
+    return {
+      isValid: false,
+      user: user,
     };
   }
 }
-
 
 export async function signup(prevState: FormState, formData: FormData) {
   const firstName = formData.get("firstName") as string;
@@ -169,9 +164,11 @@ export async function signup(prevState: FormState, formData: FormData) {
     errors.firstName = "First name must be at least 2 characters long";
   } else if (firstName.trim().length > 50) {
     errors.firstName = "First name must be less than 50 characters";
-  } else if (!/^[a-zA-Z\s'-]+$/.test(firstName.trim())) {
+  } else if (
+    !/^[\u0621-\u064A\u0660-\u0669a-zA-Z\s'-]+$/.test(firstName.trim())
+  ) {
     errors.firstName =
-      "First name can only contain letters, spaces, hyphens, and apostrophes";
+      "Only Arabic or English letters, spaces, hyphens, and apostrophes are allowed";
   }
 
   // Last Name validation
@@ -181,9 +178,11 @@ export async function signup(prevState: FormState, formData: FormData) {
     errors.lastName = "Last name must be at least 2 characters long";
   } else if (lastName.trim().length > 50) {
     errors.lastName = "Last name must be less than 50 characters";
-  } else if (!/^[a-zA-Z\s'-]+$/.test(lastName.trim())) {
+  } else if (
+    !/^[\u0621-\u064A\u0660-\u0669a-zA-Z\s'-]+$/.test(lastName.trim())
+  ) {
     errors.lastName =
-      "Last name can only contain letters, spaces, hyphens, and apostrophes";
+      "Only Arabic or English letters, spaces, hyphens, and apostrophes are allowed";
   }
 
   // Email validation
@@ -230,36 +229,39 @@ export async function signup(prevState: FormState, formData: FormData) {
     };
   }
 
+  try {
+    const result = await createUser({
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
+      email: email.trim().toLowerCase(),
+      password: password,
+      referrer: referrer.toLowerCase(),
+      username: username.trim(),
+    });
 
- try {
-  const result = await createUser({
-    first_name: firstName.trim(),
-    last_name: lastName.trim(),
-    email: email.trim().toLowerCase(),
-    password: password,
-    referrer: referrer.toLowerCase(),
-    username: username.trim(),
-  });
+    if (result?.errors) {
+      return result; // handle backend validation errors
+    }
 
-  if (result?.errors) {
-    return result; // handle backend validation errors
-  }
-
-  redirect("/auth"); // will throw NEXT_REDIRECT internally
-} catch (error: unknown) {
-  // ✅ Ignore NEXT_REDIRECT (it's expected)
-  if (typeof error === "object" && error !== null && "digest" in error &&
+    redirect("/auth"); // will throw NEXT_REDIRECT internally
+  } catch (error: unknown) {
+    // ✅ Ignore NEXT_REDIRECT (it's expected)
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "digest" in error &&
       typeof (error as { digest?: string }).digest === "string" &&
-      (error as { digest: string }).digest.startsWith("NEXT_REDIRECT")) {
-    throw error; // Let Next.js handle redirect
+      (error as { digest: string }).digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error; // Let Next.js handle redirect
+    }
+
+    console.error("Signup error:", error);
+
+    return {
+      errors: {
+        email: "An unexpected error occurred. Please try again.",
+      },
+    };
   }
-
-  console.error("Signup error:", error);
-
-  return {
-    errors: {
-      email: "An unexpected error occurred. Please try again.",
-    },
-  };
-}
 }

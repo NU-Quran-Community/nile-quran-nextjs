@@ -175,7 +175,7 @@ export async function getUserRole(token:string){
    
 
     console.log("User fetched successfully:", result);
-    return result.groups;
+    return result;
   } catch (error: unknown) {
     console.error("Error fetching user :", error);
 

@@ -1,11 +1,42 @@
-'use server'
+"use server";
 
 import { cookies } from "next/headers";
-const API_BASE =
-  process.env.Base_URL ;
+import { hijriToGregorian } from "@tabby_ai/hijri-converter";
+import { getHijriMonthDays } from "@/lib/utils";
 
-export async function getGoalOfTheMonth() {
+const API_BASE = process.env.Base_URL;
+
+interface GoalData {
+  id?: number;
+  description?: string;
+  target?: number;
+  current?: number;
+}
+
+interface GoalResponse {
+  success: boolean;
+  data: GoalData | null;
+  error?: string;
+}
+
+
+export async function getGoalOfTheMonth(
+  year: number,
+  month: number
+): Promise<GoalResponse> {
   try {
+     const lastDay = getHijriMonthDays(year, month);
+        const startDate = hijriToGregorian({
+          year,
+          month,
+          day: 1,
+        });
+    
+        const endDate = hijriToGregorian({
+          year,
+          month,
+          day: lastDay,
+        });
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("access");
 
@@ -13,44 +44,42 @@ export async function getGoalOfTheMonth() {
       throw new Error("No access token found");
     }
 
-    const response = await fetch(`${API_BASE}api/v1/goals/`, {
+    const start = `${startDate.year}-${String(startDate.month).padStart(
+      2,
+      "0",
+    )}-${String(startDate.day).padStart(2, "0")}`;
+    const end = `${endDate.year}-${String(endDate.month).padStart(
+      2,
+      "0",
+    )}-${String(endDate.day).padStart(2, "0")}`;
+console.log("goal",start,end);
+    const query = `?date_after=${start}&date_before=${end}`;
+    const response = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
         "Content-Type": "application/json",
       },
-      cache: "no-store", // Always fetch fresh data
+      cache: "no-store",
     });
-
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Failed to fetch leaderboard data: ${response.status} - ${errorText}`);
+      throw new Error(
+        `Failed to fetch goal data: ${response.status} - ${errorText}`
+      );
     }
 
     const data = await response.json();
-    
-    // Log the response to see the actual structure
-    console.log("API Response:", data);
-
-    // Handle different possible response structures
-   
-    if (!data) {
-      console.log("No results found in API response");
-      return {
-        success: true,
-        data: [],
-      };
-    }
-
 
     return {
       success: true,
-      data: data,
+      data: data.results[0],
     };
   } catch (error) {
-    console.error("Error fetching leaderboard:", error);
+    console.error("Error fetching goal:", error);
     return {
       success: false,
-      data: [],
+      data: null,
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }
