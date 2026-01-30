@@ -26,20 +26,22 @@ interface GoalData {
 interface Props {
   goalData: GoalData | null;
   isLoading: boolean;
-
 }
 
 export default function MonthGoalClient({ goalData, isLoading }: Props) {
-  
   const calculateProgress = () => {
-    if (!goalData || goalData.target === undefined || goalData.current === undefined) {
+    if (
+      !goalData ||
+      goalData.target === undefined ||
+      goalData.current === undefined
+    ) {
       return 0;
     }
-    
+
     const { target, current } = goalData;
-    
+
     if (target <= 0) return 0;
-    
+
     const progress = (current / target) * 100;
     return Math.min(Math.max(progress, 0), 100);
   };
@@ -65,7 +67,6 @@ export default function MonthGoalClient({ goalData, isLoading }: Props) {
         </p>
       </div>
 
-    
       {/* Loading State */}
       {isLoading ? (
         <div className="flex flex-col gap-4 animate-pulse">
@@ -81,20 +82,21 @@ export default function MonthGoalClient({ goalData, isLoading }: Props) {
           </p>
 
           {/* Progress Bar */}
-          {goalData && goalData.target !== undefined && goalData.current !== undefined ? (
+          {goalData &&
+          goalData.target !== undefined &&
+          goalData.current !== undefined ? (
             <div className="flex flex-col gap-2">
               <Progress
                 value={progressValue}
                 className="h-10 bg-[#DEFF90]"
                 className2="bg-[#9ADD00]"
               />
-              
-             
-             
             </div>
           ) : (
             <div className="h-10 bg-white/10 rounded-lg flex items-center justify-center">
-              <span className="text-white/50 text-sm">لا توجد بيانات للتقدم</span>
+              <span className="text-white/50 text-sm">
+                لا توجد بيانات للتقدم
+              </span>
             </div>
           )}
         </>

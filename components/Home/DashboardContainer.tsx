@@ -35,7 +35,9 @@ export default function DashboardContainer() {
   const [month, setMonth] = React.useState(hijriDate.month);
   const [year, setYear] = React.useState(hijriDate.year);
 
-  const [leaderboardData, setLeaderboardData] = React.useState<LeaderboardUser[]>([]);
+  const [leaderboardData, setLeaderboardData] = React.useState<
+    LeaderboardUser[]
+  >([]);
   const [goalData, setGoalData] = React.useState<GoalData | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -88,7 +90,7 @@ export default function DashboardContainer() {
   return (
     <div className="w-full h-full flex gap-10 justify-center ">
       <MonthGoalClient goalData={goalData} isLoading={isLoading} />
-      <PerformanceBoardClient 
+      <PerformanceBoardClient
         leaderboardData={leaderboardData}
         isLoading={isLoading}
         error={error}

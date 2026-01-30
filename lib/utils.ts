@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from "clsx"
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { hijriToGregorian, gregorianToHijri } from "@tabby_ai/hijri-converter";
 
@@ -10,9 +10,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
-
-export function getHijriMonth(monthIndex:number): string {
+export function getHijriMonth(monthIndex: number): string {
   const hijriMonths = [
     "محرم",
     "صفر",
@@ -28,10 +26,8 @@ export function getHijriMonth(monthIndex:number): string {
     "ذو الحجة",
   ];
 
-  
   return hijriMonths[monthIndex];
 }
-
 
 export const formatDate = (d: Date) => {
   const year = d.getFullYear();
@@ -40,8 +36,7 @@ export const formatDate = (d: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-
-export function getHijriMonthDays(year:number, month:number) {
+export function getHijriMonthDays(year: number, month: number) {
   // 1. نحول يوم 29 من الشهر الهجري المطلوب إلى ميلادي
   const gregResult = hijriToGregorian({ year, month, day: 29 });
 
@@ -49,7 +44,7 @@ export function getHijriMonthDays(year:number, month:number) {
   const gregDate = new Date(
     gregResult.year,
     gregResult.month - 1,
-    gregResult.day
+    gregResult.day,
   );
 
   // 2. نضيف يوماً واحداً للتاريخ الميلادي

@@ -5,17 +5,16 @@ import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
 const lalezar = Lalezar({
   subsets: ["latin"],
-  weight: "400", 
+  weight: "400",
 });
 const tajawal = Tajawal({
   subsets: ["latin"],
-  weight: "700", 
+  weight: "700",
 });
 interface Props {
-  mode:string,
+  mode: string;
 }
 export default function AuthForm({ mode }: Props) {
-  
   return (
     <div className=" w-[630px] flex z-30  flex-col items-center justify-center h-full">
       <p className={`text-[54px] text-[#043F2E] ${lalezar.className}`}>

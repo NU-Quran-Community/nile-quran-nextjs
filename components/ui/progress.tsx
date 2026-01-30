@@ -1,11 +1,12 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as ProgressPrimitive from "@radix-ui/react-progress"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as ProgressPrimitive from "@radix-ui/react-progress";
+import { cn } from "@/lib/utils";
 
-interface ProgressProps extends React.ComponentProps<typeof ProgressPrimitive.Root> {
-  className2?: string
+interface ProgressProps
+  extends React.ComponentProps<typeof ProgressPrimitive.Root> {
+  className2?: string;
 }
 
 function Progress({
@@ -16,11 +17,11 @@ function Progress({
 }: ProgressProps) {
   return (
     <ProgressPrimitive.Root
-    dir="rtl"
+      dir="rtl"
       data-slot="progress"
       className={cn(
         "relative h-full w-full overflow-hidden rounded-full bg-gray-200", // container rounded
-        className
+        className,
       )}
       {...props}
     >
@@ -33,4 +34,4 @@ function Progress({
   );
 }
 
-export { Progress }
+export { Progress };

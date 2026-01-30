@@ -25,7 +25,7 @@ export async function addUserActivity(
   uid: number,
   category: number,
   date: string,
-  count:number|null
+  count: number | null,
 ) {
   try {
     const cookieStore = await cookies();
@@ -37,7 +37,7 @@ export async function addUserActivity(
         Authorization: `Bearer ${access}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ category,count, date }),
+      body: JSON.stringify({ category, count, date }),
     });
 
     revalidatePath("/control-panel");
@@ -66,7 +66,6 @@ export async function deleteUserActivity(uid: number, activityId: number) {
       return { success: false, error: "غير مصرح - الرجاء تسجيل الدخول" };
     }
 
-
     const response = await fetch(
       `${API_BASE}api/v1/users/${uid}/activities/${activityId}/`,
       {
@@ -75,7 +74,7 @@ export async function deleteUserActivity(uid: number, activityId: number) {
           Authorization: `Bearer ${access}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     console.log("Delete response status:", response.status);
@@ -154,7 +153,7 @@ export async function getUsersWithDetails(start?: string, end?: string) {
           console.error(`Error fetching user ${item.user}:`, err);
           return null;
         }
-      })
+      }),
     );
 
     const validUsers = users.filter(Boolean);
@@ -195,8 +194,6 @@ export async function getWeekData(start: string, end: string) {
   }
 }
 
-
-
 export async function getUsers(year: number, month: number, weekIndex: number) {
   try {
     const cookieStore = await cookies();
@@ -233,17 +230,16 @@ export async function getUsers(year: number, month: number, weekIndex: number) {
       month,
       day: endHijriDay,
     });
-    
+
     // 🟢 Format dates for backend (YYYY-MM-DD)
     const start = `${startDate.year}-${String(startDate.month).padStart(
       2,
-      "0"
+      "0",
     )}-${String(startDate.day).padStart(2, "0")}`;
     const end = `${endDate.year}-${String(endDate.month).padStart(
       2,
-      "0"
+      "0",
     )}-${String(endDate.day).padStart(2, "0")}`;
-
 
     const query = `?date_after=${start}&date_before=${end}`;
     const result = await fetch(`${API_BASE}api/v1/users/${query}`, {
@@ -287,7 +283,7 @@ export async function getCategories() {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Failed to fetch categories: ${response.status} - ${errorText}`
+        `Failed to fetch categories: ${response.status} - ${errorText}`,
       );
     }
 
@@ -308,7 +304,7 @@ export async function getUserActivities(
   Id: number,
   year: number,
   month: number,
-  weekIndex: number
+  weekIndex: number,
 ) {
   try {
     const cookieStore = await cookies();
@@ -349,11 +345,11 @@ export async function getUserActivities(
     // 🟢 Format dates for backend (YYYY-MM-DD)
     const start = `${startDate.year}-${String(startDate.month).padStart(
       2,
-      "0"
+      "0",
     )}-${String(startDate.day).padStart(2, "0")}`;
     const end = `${endDate.year}-${String(endDate.month).padStart(
       2,
-      "0"
+      "0",
     )}-${String(endDate.day).padStart(2, "0")}`;
 
     const query = `?date_after=${start}&date_before=${end}`;
@@ -366,13 +362,13 @@ export async function getUserActivities(
           "Content-Type": "application/json",
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Failed to fetch categories: ${response.status} - ${errorText}`
+        `Failed to fetch categories: ${response.status} - ${errorText}`,
       );
     }
 
@@ -389,7 +385,11 @@ export async function getUserActivities(
     };
   }
 }
-export async function getPoints(year:number,month:number,weekIndex:number) {
+export async function getPoints(
+  year: number,
+  month: number,
+  weekIndex: number,
+) {
   try {
     const cookieStore = await cookies();
     const access = cookieStore.get("access")?.value;
@@ -429,7 +429,7 @@ export async function getPoints(year:number,month:number,weekIndex:number) {
     // 🟢 Format dates for backend (YYYY-MM-DD)
     const start = `${startDate.year}-${String(startDate.month).padStart(2, "0")}-${String(startDate.day).padStart(2, "0")}`;
     const end = `${endDate.year}-${String(endDate.month).padStart(2, "0")}-${String(endDate.day).padStart(2, "0")}`;
-    console.log(start,end);
+    console.log(start, end);
     const query = `?date_after=${start}&date_before=${end}`;
     const response = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
       method: "GET",
@@ -443,7 +443,7 @@ export async function getPoints(year:number,month:number,weekIndex:number) {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Failed to fetch categories: ${response.status} - ${errorText}`
+        `Failed to fetch categories: ${response.status} - ${errorText}`,
       );
     }
 

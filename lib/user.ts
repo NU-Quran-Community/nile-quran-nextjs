@@ -1,12 +1,11 @@
-const API_BASE =
-  process.env.Base_URL ;
+const API_BASE = process.env.Base_URL;
 interface types {
   first_name: string;
-  last_name:string;
+  last_name: string;
   email: string;
   username: string;
   password: string;
-  referrer:string;
+  referrer: string;
 }
 export async function Login(username: string, password: string) {
   try {
@@ -19,7 +18,7 @@ export async function Login(username: string, password: string) {
     });
 
     const result = await response.json();
-    console.log(result)
+    console.log(result);
 
     if (!response.ok) {
       if (response.status === 404 || response.status === 401) {
@@ -68,7 +67,6 @@ export async function Login(username: string, password: string) {
   }
 }
 
-
 export default async function createUser({
   first_name,
   last_name,
@@ -98,8 +96,8 @@ export default async function createUser({
     });
 
     const result = await response.json();
-console.log("Response status:", response.status);
-console.log("Response body:", result);
+    console.log("Response status:", response.status);
+    console.log("Response body:", result);
 
     if (!response.ok) {
       // Handle specific error cases
@@ -143,18 +141,18 @@ console.log("Response body:", result);
     };
   }
 }
-export async function getUserRole(token:string){
-    try {
+export async function getUserRole(token: string) {
+  try {
     const response = await fetch(`${API_BASE}api/v1/users/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        'Authorization':`Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
 
     const result = await response.json();
-    console.log(result)
+    console.log(result);
 
     if (!response.ok) {
       if (response.status === 404 || response.status === 401) {
@@ -171,8 +169,6 @@ export async function getUserRole(token:string){
         },
       };
     }
-
-   
 
     console.log("User fetched successfully:", result);
     return result;

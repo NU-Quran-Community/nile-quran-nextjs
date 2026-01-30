@@ -36,7 +36,7 @@ interface SignupErrors {
 
 export async function login(
   prevState: { errors: Record<string, string> },
-  formData: FormData
+  formData: FormData,
 ) {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;

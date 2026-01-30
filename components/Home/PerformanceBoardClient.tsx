@@ -21,8 +21,8 @@ interface Props {
   onPreviousMonth: () => void;
   onNextMonth: () => void;
   onRetry: () => void;
-  month:number;
-  year:number;
+  month: number;
+  year: number;
 }
 
 export default function PerformanceBoardClient({
@@ -36,7 +36,7 @@ export default function PerformanceBoardClient({
   onNextMonth,
   onRetry,
 }: Props) {
-  const monthIndex=(month-1);
+  const monthIndex = month - 1;
   const sortedData = [...leaderboardData].sort((a, b) => a.points - b.points);
 
   const maxPoints =
@@ -56,9 +56,6 @@ export default function PerformanceBoardClient({
       return "bg-[#B5CF7C] border-2 border-[#043F2E]";
     }
   };
-
- 
-  
 
   const NavigationButtons = () => (
     <div className="flex items-center justify-between w-full mt-4">
@@ -105,7 +102,7 @@ export default function PerformanceBoardClient({
     return (
       <div className="w-[800px] max-w-6xl  p-6 h-[530px]" dir="rtl">
         <h2 className="text-2xl font-bold text-center mb-8 text-[#2C5234]">
-      لوحة الاداءات - {getHijriMonth(monthIndex)}-{year}
+          لوحة الاداءات - {getHijriMonth(monthIndex)}-{year}
         </h2>
         <div className="bg-[#F7FBEA] rounded-xl p-8 shadow-sm border border-[#043F2E]">
           <div className="border-b-2 border-b-[#043F2E] pb-4">
@@ -229,7 +226,7 @@ export default function PerformanceBoardClient({
                           delay: index * 0.08,
                         }}
                         className={`w-20 ${getBarColors(
-                          user.points
+                          user.points,
                         )} rounded-t-lg flex items-center justify-center relative`}
                       >
                         <div className="absolute -top-20 flex flex-col items-center">

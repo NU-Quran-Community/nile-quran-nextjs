@@ -19,7 +19,7 @@ export default function SignUpForm() {
   const initialState: FormState = { errors: {} };
   const [formState, formAction, isPending] = useActionState(
     signup,
-    initialState
+    initialState,
   );
 
   return (

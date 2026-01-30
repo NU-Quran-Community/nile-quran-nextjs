@@ -10,9 +10,9 @@ export default async function Page({
   searchParams: { mode?: string };
 }) {
   const User = await checkTokenValidity();
-if (User.isValid) {
-  redirect("/");
-}
+  if (User.isValid) {
+    redirect("/");
+  }
   const formMode = searchParams.mode || "login";
   return (
     <div className="w-full py-10 min-h-screen bg-[#EBF0EB] flex items-center">

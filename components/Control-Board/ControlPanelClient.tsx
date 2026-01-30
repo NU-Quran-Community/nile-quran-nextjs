@@ -68,7 +68,7 @@ export default function ControlPanelClient() {
   };
   const currentWeek = getInitialWeekIndex();
   const [month, setMonth] = useState(hijriDate.month);
-  const [year,setYear]= useState(hijriDate.year);
+  const [year, setYear] = useState(hijriDate.year);
   const [weekIndex, setWeekIndex] = useState<number>(getInitialWeekIndex);
 
   const fetchWeekData = useCallback(
@@ -83,7 +83,7 @@ export default function ControlPanelClient() {
           const newData = { ...prev };
 
           if (usersRes && usersRes.success) {
-            const rawUsers = (usersRes).users;
+            const rawUsers = usersRes.users;
             newData.users = Array.isArray(rawUsers)
               ? rawUsers
               : rawUsers?.results || [];
@@ -92,7 +92,7 @@ export default function ControlPanelClient() {
           }
 
           if (categoriesRes && categoriesRes.success) {
-            const rawCategories = (categoriesRes).categories;
+            const rawCategories = categoriesRes.categories;
             newData.categories = Array.isArray(rawCategories)
               ? rawCategories
               : rawCategories?.results || [];
@@ -107,7 +107,7 @@ export default function ControlPanelClient() {
         setData((prev) => ({ ...prev, error: "System error loading data" }));
       }
     },
-    [year, month]
+    [year, month],
   );
 
   useEffect(() => {
@@ -174,7 +174,7 @@ export default function ControlPanelClient() {
           <div className="flex flex-col text-[#043F2E]">
             {/* Dynamic Month Name */}
             <p className={`${lalezar.className} text-[28.5px]`}>
-              {getHijriMonth(month-1)} -{toArabicDigits(year)}
+              {getHijriMonth(month - 1)} -{toArabicDigits(year)}
             </p>
             <p className={`${lalezar.className} text-[17px] text-end`}>
               الأسبوع {weekArabicNames[weekIndex - 1]}

@@ -19,24 +19,23 @@ interface GoalResponse {
   error?: string;
 }
 
-
 export async function getGoalOfTheMonth(
   year: number,
-  month: number
+  month: number,
 ): Promise<GoalResponse> {
   try {
-     const lastDay = getHijriMonthDays(year, month);
-        const startDate = hijriToGregorian({
-          year,
-          month,
-          day: 1,
-        });
-    
-        const endDate = hijriToGregorian({
-          year,
-          month,
-          day: lastDay,
-        });
+    const lastDay = getHijriMonthDays(year, month);
+    const startDate = hijriToGregorian({
+      year,
+      month,
+      day: 1,
+    });
+
+    const endDate = hijriToGregorian({
+      year,
+      month,
+      day: lastDay,
+    });
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("access");
 
@@ -52,7 +51,7 @@ export async function getGoalOfTheMonth(
       2,
       "0",
     )}-${String(endDate.day).padStart(2, "0")}`;
-console.log("goal",start,end);
+    console.log("goal", start, end);
     const query = `?date_after=${start}&date_before=${end}`;
     const response = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
       method: "GET",
@@ -65,7 +64,7 @@ console.log("goal",start,end);
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Failed to fetch goal data: ${response.status} - ${errorText}`
+        `Failed to fetch goal data: ${response.status} - ${errorText}`,
       );
     }
 

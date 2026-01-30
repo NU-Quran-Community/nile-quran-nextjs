@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
 import { logout } from "@/actions/auth-actions";
 import { useState } from "react";
 
 export default function LogoutButton() {
   const [isLoading, setIsLoading] = useState(false);
-  
-  const handleLogout = async() => {
+
+  const handleLogout = async () => {
     setIsLoading(true);
     await logout();
     setIsLoading(false);

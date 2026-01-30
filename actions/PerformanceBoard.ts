@@ -48,7 +48,6 @@ interface MappedLeaderboardUser {
 
 type APIResponse = LeaderboardItem[] | PaginatedResponse | LeaderboardItem;
 
-
 export async function getLeaderboardData(year: number, month: number) {
   try {
     const lastDay = getHijriMonthDays(year, month);
@@ -78,7 +77,7 @@ export async function getLeaderboardData(year: number, month: number) {
       2,
       "0",
     )}-${String(endDate.day).padStart(2, "0")}`;
-    console.log("board",start,end);
+    console.log("board", start, end);
 
     const query = `?date_after=${start}&date_before=${end}`;
     const result = await fetch(`${API_BASE}api/v1/users/points/${query}`, {

@@ -17,7 +17,7 @@ export default function LoginForm() {
   const initialState: FormState = { errors: { email: undefined } };
   const [formState, formAction, isPending] = useActionState(
     login,
-    initialState
+    initialState,
   );
   return (
     <form

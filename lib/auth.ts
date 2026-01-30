@@ -1,7 +1,5 @@
 import { cookies } from "next/headers";
 
-
-
 export async function destroySession() {
   const cookieStore = await cookies();
   const tokenCookie = cookieStore.get("auth-token");

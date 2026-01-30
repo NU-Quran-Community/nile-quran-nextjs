@@ -217,7 +217,9 @@ export default function UserRow({
                 onChange={(e) =>
                   handleInput(
                     e,
-                    Array.isArray(currentActivity) ? currentActivity[0]?.id : undefined,
+                    Array.isArray(currentActivity)
+                      ? currentActivity[0]?.id
+                      : undefined,
                     category.id,
                     userId,
                     e.target.value,
@@ -242,7 +244,14 @@ export default function UserRow({
                 type="checkbox"
                 checked={!!currentActivity}
                 onChange={(e) =>
-                  handleInput(e, Array.isArray(currentActivity) ? currentActivity[0]?.id : currentActivity?.id, category.id, userId)
+                  handleInput(
+                    e,
+                    Array.isArray(currentActivity)
+                      ? currentActivity[0]?.id
+                      : currentActivity?.id,
+                    category.id,
+                    userId,
+                  )
                 }
                 disabled={loading}
                 className="w-5 h-5 appearance-none flex justify-center items-center bg-[#F3F3F3] border border-[#B6BFBC] rounded-sm checked:bg-[#8EE000] checked:border-[#043F2E] checked:before:content-['✔'] checked:before:text-[#043F2E] checked:before:text-[12px] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
