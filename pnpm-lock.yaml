@@ -10,6 +10,9 @@ importers:
       "@radix-ui/react-progress":
         specifier: ^1.1.7
         version: 1.1.8(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      "@tabby_ai/hijri-converter":
+        specifier: ^1.0.5
+        version: 1.0.5
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -634,6 +637,13 @@ packages:
       {
         integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==,
       }
+
+  "@tabby_ai/hijri-converter@1.0.5":
+    resolution:
+      {
+        integrity: sha512-r5bClKrcIusDoo049dSL8CawnHR6mRdDwhlQuIgZRNty68q0x8k3Lf1BtPAMxRf/GgnHBnIO4ujd3+GQdLWzxQ==,
+      }
+    engines: { node: ">=16.0.0" }
 
   "@tailwindcss/node@4.1.17":
     resolution:
@@ -3393,6 +3403,8 @@ snapshots:
   "@swc/helpers@0.5.15":
     dependencies:
       tslib: 2.8.1
+
+  "@tabby_ai/hijri-converter@1.0.5": {}
 
   "@tailwindcss/node@4.1.17":
     dependencies:
