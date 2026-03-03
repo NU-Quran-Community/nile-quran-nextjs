@@ -206,7 +206,7 @@ export default function ControlPanelClient() {
 
             <div className="flex-1 flex gap-3 pr-3 justify-center items-center h-full border-b border-r border-black">
               <button
-                onClick={() => handleWeekChange("prev")}
+                onClick={() => handleWeekChange("next")}
                 disabled={loading}
                 className="relative w-[18px] h-[18px] flex justify-center items-center rounded-[3px] bg-[#043F2E] disabled:opacity-40 hover:bg-[#065f46] transition-colors"
               >
@@ -220,7 +220,7 @@ export default function ControlPanelClient() {
               </div>
 
               <button
-                onClick={() => handleWeekChange("next")}
+                onClick={() => handleWeekChange("prev")}
                 disabled={loading}
                 className="relative w-[18px] h-[18px] flex justify-center items-center rounded-[3px] bg-[#043F2E] disabled:opacity-40 hover:bg-[#065f46] transition-colors"
               >
@@ -246,11 +246,7 @@ export default function ControlPanelClient() {
           <div className="relative w-[1172px] h-8 flex">
             {/* Mask 1: Previous Week (Was Month) */}
             <div
-              onClick={() => !loading && handleWeekChange("prev")}
-              className={`relative w-[200px] pr-3 border-b border-r border-black flex justify-end items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity ${
-                loading ? "pointer-events-none opacity-60" : ""
-              }`}
-              title="الأسبوع السابق"
+              className={`relative w-[200px] pr-3 border-b border-r border-black flex justify-end items-center gap-2  `}
             >
               <Image
                 src={Mask1}
@@ -275,11 +271,7 @@ export default function ControlPanelClient() {
             <div className="relative w-[400px] h-full border-b border-black flex">
               {/* Mask 2: Next Week (Was Month) */}
               <div
-                onClick={() => !loading && handleWeekChange("next")}
-                className={`absolute w-[400px] h-8 top-0 left-0 z-10 cursor-pointer hover:opacity-80 transition-opacity ${
-                  loading ? "pointer-events-none opacity-60" : ""
-                }`}
-                title="الأسبوع التالي"
+                className={`absolute w-[400px] h-8 top-0 left-0 z-10 `}
               >
                 <Image
                   src={Mask2}
