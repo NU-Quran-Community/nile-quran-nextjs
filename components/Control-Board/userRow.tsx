@@ -16,7 +16,8 @@ const tajawal = Tajawal({ subsets: ["latin"], weight: "700" });
 type Category = { id: number; name_ar: string };
 type Props = {
   userId: number;
-  username: string;
+  firstname: string;
+  lastname: string;
   supervisor: string;
   categories: Category[];
   setLoading: (arg0: boolean) => void;
@@ -43,7 +44,8 @@ type PointsResponse = {
 
 export default function UserRow({
   userId,
-  username,
+  firstname,
+  lastname,
   supervisor,
   categories,
   setLoading,
@@ -270,7 +272,7 @@ export default function UserRow({
         <div
           className={`w-[250px] ${tajawal.className} font-bold text-[15px] text-[#043F2E] flex justify-center items-center`}
         >
-          {username}
+          {firstname} {lastname}
         </div>
       </div>
     </div>

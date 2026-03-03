@@ -16,7 +16,8 @@ const tajawal = Tajawal({ subsets: ["latin"], weight: "700" });
 type Category = { id: number; name_ar: string };
 type User = {
   id: number;
-  username: string;
+  first_name: string;
+  last_name: string;
   groups: string[];
   points: number;
   supervisor: string;
@@ -157,7 +158,7 @@ export default function ControlPanelClient() {
     <div className="relative flex flex-col min-h-screen items-center bg-[#EBF0EB] overflow-hidden">
       {/* 🟢 Header */}
       <div className="absolute top-0 left-0 w-full h-[207px] bg-[#BEE663] py-6 z-10">
-        <h2 className="text-4xl font-bold text-end pr-28">لوحة التحكم</h2>
+        <h2 className={`${tajawal.className} text-4xl font-bold text-end pr-28 text-[#043F2E]`}>لوحة التحكم</h2>
       </div>
 
       {/* 🟢 Content */}
@@ -299,7 +300,8 @@ export default function ControlPanelClient() {
                   <UserRow
                     key={user.id}
                     userId={user.id}
-                    username={user.username}
+                    firstname={user.first_name}
+                    lastname={user.last_name}
                     supervisor={user.supervisor}
                     categories={data.categories}
                     setLoading={setLoading}
