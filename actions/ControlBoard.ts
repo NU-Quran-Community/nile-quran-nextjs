@@ -5,7 +5,7 @@ import { getHijriMonthDays } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { hijriToGregorian } from "@tabby_ai/hijri-converter";
 
-const API_BASE = process.env.Base_URL;
+const API_BASE = process.env.BASE_URL;
 type Activity = {
   id: number;
   category: number;

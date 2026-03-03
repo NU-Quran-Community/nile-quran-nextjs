@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { hijriToGregorian } from "@tabby_ai/hijri-converter";
 import { getHijriMonthDays } from "@/lib/utils";
 
-const API_BASE = process.env.Base_URL;
+const API_BASE = process.env.BASE_URL;
 
 interface GoalData {
   id?: number;
