@@ -103,9 +103,9 @@ export default function SignUpForm() {
       </div>
       {/* ERRORS */}
       {formState.errors && Object.keys(formState.errors).length > 0 && (
-        <ul className="list-none p-0 m-0">
+        <ul className="list-none p-0 m-0 text-right">
           {Object.entries(formState.errors).map(([key, value]) => (
-            <li key={key} className="text-red-500 text-sm">
+            <li key={key} className="text-red-500 text-sm text-right">
               {value}
             </li>
           ))}

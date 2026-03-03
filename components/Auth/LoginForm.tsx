@@ -51,7 +51,7 @@ export default function LoginForm() {
       </div>
       {/* ERRORS */}
       {Object.entries(formState.errors).map(([key, message]) => (
-        <li key={key} className="list-none text-red-500 text-sm">
+        <li key={key} className="list-none text-right text-red-500 text-sm">
           {message}
         </li>
       ))}
