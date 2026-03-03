@@ -79,7 +79,7 @@ export default function PerformanceBoardClient({
   );
 
   const LoadingSkeleton = () => (
-    <div className="flex items-end justify-evenly gap-4 w-full px-4 h-[300px]">
+    <div className="flex items-end justify-evenly gap-4 w-full px-4 h-full max-sm:px-0 overflow-hidden">
       {[...Array(5)].map((_, index) => (
         <div
           key={index}
@@ -100,7 +100,7 @@ export default function PerformanceBoardClient({
 
   if (isLoading) {
     return (
-      <div className="w-[800px] max-w-6xl  p-6 h-[530px]" dir="rtl">
+      <div className="w-[800px] max-sm:w-full   p-6 h-full overflow-hidden max-sm:p-0" dir="rtl">
         <h2 className="text-2xl font-bold text-center mb-8 text-[#2C5234]">
           لوحة الاداءات - {getHijriMonth(monthIndex)}-{year}
         </h2>
@@ -116,7 +116,7 @@ export default function PerformanceBoardClient({
 
   if (error) {
     return (
-      <div className="w-[800px] max-w-6xl  p-6 h-[530px]" dir="rtl">
+      <div className="w-[800px] max-sm:w-full max-w-6xl  p-6 h-[530px]" dir="rtl">
         <h2 className="text-2xl font-bold text-center mb-8 text-[#2C5234]">
           لوحة الاداءات - {getHijriMonth(monthIndex)} - {toArabicDigits(year)}
         </h2>
@@ -193,13 +193,14 @@ export default function PerformanceBoardClient({
   }
 
   return (
-    <div className="w-[800px] h-[530px] p-6" dir="rtl">
+    <div className="w-[800px] h-full p-6 max-sm:p-0 max-sm:w-full" dir="rtl">
       <h2 className="text-2xl font-bold text-center mb-8 text-[#2C5234]">
         لوحة الاداءات - {getHijriMonth(monthIndex)} - {toArabicDigits(year)}
       </h2>
 
-      <div className="bg-[#F7FBEA] rounded-xl p-8 shadow-sm relative border border-[#043F2E]">
-        <div className="relative  flex items-end justify-evenly gap-4 border-b-2 border-b-[#043F2E] w-full px-4 overflow-x-auto overflow-y-hidden">
+      <div className="bg-[#F7FBEA] rounded-xl p-8 shadow-sm relative border border-[#043F2E] ">
+        <div className="w-full overflow-x-auto overflow-y-hidden max-sm:pb-4">
+        <div className="relative  flex items-end justify-evenly gap-4 border-b-2 border-b-[#043F2E] w-full px-4 ">
           {sortedData.map((user, index) => {
             const maxBarHeight = 200;
             const minBarHeight = 50;
@@ -235,7 +236,7 @@ export default function PerformanceBoardClient({
                               {user.name.charAt(0)}
                             </span>
                           </div>
-                          <p className="text-xs text-[#043F2E] font-bold mt-1 text-center whitespace-nowrap max-w-[90px] overflow-hidden text-ellipsis">
+                          <p className="text-xs text-[#043F2E] font-bold mt-1 text-center whitespace-nowrap max-w-[90px] flex justify-center">
                             {user.name}
                           </p>
                         </div>
@@ -251,9 +252,10 @@ export default function PerformanceBoardClient({
             );
           })}
         </div>
-
+</div>
         <NavigationButtons />
       </div>
+      
     </div>
   );
 }

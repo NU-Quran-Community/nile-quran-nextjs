@@ -3,7 +3,11 @@
 import { logout } from "@/actions/auth-actions";
 import { useState } from "react";
 
-export default function LogoutButton() {
+interface LogoutButtonProps {
+  className?: string;
+}
+
+export default function LogoutButton({ className }: LogoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -16,7 +20,7 @@ export default function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={isLoading}
-      className={`text-[#BEE663] cursor-pointer
+      className={`text-[#BEE663] cursor-pointer ${className || ""}
               ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
     >
       {isLoading ? (

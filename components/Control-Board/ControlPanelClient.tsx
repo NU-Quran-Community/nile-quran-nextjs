@@ -183,7 +183,7 @@ export default function ControlPanelClient() {
         </div>
 
         {/* Main Table */}
-        <div className="relative w-full bg-[#F7FBEA] p-7 border border-[#043F2E] rounded-2xl flex flex-col overflow-hidden">
+        <div className="relative w-full bg-[#F7FBEA] p-7 border border-[#043F2E] rounded-2xl flex flex-col overflow-x-auto">
           {/* Loading Overlay */}
           {loading && (
             <div className="absolute inset-0 bg-white/70 backdrop-blur-sm flex flex-col justify-center items-center z-50">
@@ -195,7 +195,7 @@ export default function ControlPanelClient() {
           )}
 
           {/* Header Row */}
-          <div className="relative h-8 w-full flex">
+          <div className="relative h-8 w-[1172px] flex">
             <div className="w-[200px] pr-3 h-full border-b border-r border-black flex justify-end items-center gap-2">
               <div
                 className={`${tajawal.className} font-bold text-[15px] text-[#043F2E]`}
@@ -230,7 +230,7 @@ export default function ControlPanelClient() {
 
             <div className="w-[400px] h-full border-b border-black flex">
               <div
-                className={`w-[150px] py-5 border-r border-black ${tajawal.className} font-bold text-[15px] text-[#043F2E] flex justify-center items-center`}
+                className={`w-[150px] border-r border-black ${tajawal.className} font-bold text-[15px] text-[#043F2E] flex justify-center items-center`}
               >
                 المجموعة
               </div>
@@ -243,7 +243,7 @@ export default function ControlPanelClient() {
           </div>
 
           {/* Category Header with Week Navigation (Updated Masks) */}
-          <div className="relative w-full h-8 flex">
+          <div className="relative w-[1172px] h-8 flex">
             {/* Mask 1: Previous Week (Was Month) */}
             <div
               onClick={() => !loading && handleWeekChange("prev")}

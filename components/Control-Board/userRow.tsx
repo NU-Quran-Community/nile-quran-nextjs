@@ -187,7 +187,7 @@ export default function UserRow({
   return (
     <div
       key={userId}
-      className="relative w-full h-8 flex hover:bg-black/5 transition-colors"
+      className="relative w-[1172px] h-8 flex hover:bg-black/5 transition-colors"
     >
       <div className="relative w-[200px] pr-3 border-b border-r border-black flex justify-end items-center gap-2">
         <div className={`${tajawal.className} font-bold`}>{points}</div>

@@ -16,15 +16,15 @@ interface Props {
 }
 export default function AuthForm({ mode }: Props) {
   return (
-    <div className=" w-[630px] flex z-30  flex-col items-center justify-center h-full">
-      <p className={`text-[54px] text-[#043F2E] ${lalezar.className}`}>
+    <div className=" w-[630px] flex z-30  flex-col items-center justify-center h-full max-sm:w-full">
+      <p className={`text-[54px] text-[#043F2E] max-sm:text-[38px] ${lalezar.className}`}>
         قرآن النيل
       </p>
       <div className="w-full rounded-2xl border border-[#043F2E] bg-[#F7FBEA] overflow-hidden">
         <div className={`w-full flex ${tajawal.className}`}>
           <Link
             href={"/auth/?mode=signup"}
-            className={`w-1/2 h-[75px] ${
+            className={`w-1/2 h-[75px] max-sm:h-[60px] max-sm:font-extrabold  ${
               mode === "signup"
                 ? "bg-[#043F2E] text-[#EBFFBD]"
                 : "bg-[#EBFFBD] text-[#043F2E]"
@@ -38,7 +38,7 @@ export default function AuthForm({ mode }: Props) {
               mode === "login"
                 ? "bg-[#043F2E] text-[#EBFFBD]"
                 : "bg-[#EBFFBD] text-[#043F2E]"
-            } h-[75px] border-b border-[#043F2E] cursor-pointer flex justify-center items-center`}
+            } h-[75px] max-sm:h-[60px] max-sm:font-extrabold border-b border-[#043F2E] cursor-pointer flex justify-center items-center`}
           >
             تسجيل الدخول
           </Link>

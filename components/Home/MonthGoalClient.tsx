@@ -50,7 +50,7 @@ export default function MonthGoalClient({ goalData, isLoading }: Props) {
 
   return (
     <div
-      className="relative mt-[120px] w-[327px] max-h-fit rounded-[17px] bg-[#043F2E] flex flex-col text-white p-4 gap-5 overflow-hidden"
+      className="relative mt-[88px] max-sm:mt-0 w-[327px] max-sm:w-full max-h-fit rounded-[17px] bg-[#043F2E] flex flex-col text-white p-4 gap-5 overflow-hidden"
       dir="rtl"
     >
       {/* Background Arrow */}

@@ -26,22 +26,22 @@ export default function SignUpForm() {
     <form
       id="auth-form"
       action={formAction}
-      className={`${tajawal.className} px-20 py-5 flex flex-col gap-5 `}
+      className={`${tajawal.className} px-20 py-5 flex flex-col gap-5 max-sm:px-8`}
     >
       <div className="flex gap-3">
         <div className="w-1/2 flex  flex-col gap-3 items-end">
-          <label className="text-[#043F2E] text-[20px]f">الاسم الاخير</label>
+          <label className="text-[#043F2E] text-[20px] max-sm:text-[16px]">الاسم الاخير</label>
           <input
             type="text"
             id="lastName"
             name="lastName"
             placeholder="الاسم الاخير"
             dir="auto"
-            className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+            className="bg-white w-full h-14 max-sm:h-11 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
           />
         </div>
         <div className="w-1/2 flex  flex-col gap-3 items-end">
-          <label className="text-[#043F2E] text-[20px]f">الاسم الاول</label>
+          <label className="text-[#043F2E] text-[20px] max-sm:text-[16px]">الاسم الاول</label>
           <input
             type="text"
             id="firstName"
@@ -49,12 +49,12 @@ export default function SignUpForm() {
             placeholder="الاسم الاول"
             dir="auto"
             required
-            className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+            className="bg-white w-full h-14 max-sm:h-11 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
           />
         </div>
       </div>
       <div className="flex flex-col gap-3 items-end">
-        <label className="text-[#043F2E] text-[20px]f">البريد الالكترونى</label>
+        <label className="text-[#043F2E] text-[20px] max-sm:text-[16px]">البريد الالكترونى</label>
         <input
           type="email"
           id="email"
@@ -62,11 +62,11 @@ export default function SignUpForm() {
           placeholder="البريد الالكترونى"
           dir="auto"
           required
-          className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+          className="bg-white w-full h-14 max-sm:h-11 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
         />
       </div>
       <div className="flex flex-col gap-3 items-end">
-        <label className="text-[#043F2E] text-[20px]f">اسم المستخدم</label>
+        <label className="text-[#043F2E] text-[20px] max-sm:text-[16px]">اسم المستخدم</label>
         <input
           type="text"
           id="username"
@@ -74,11 +74,11 @@ export default function SignUpForm() {
           placeholder="اسم المستخدم"
           dir="auto"
           required
-          className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+          className="bg-white w-full h-14 max-sm:h-11 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
         />
       </div>
       <div className="flex flex-col gap-3 items-end">
-        <label className="text-[#043F2E] text-[20px]f">المرسل</label>
+        <label className="text-[#043F2E] text-[20px] max-sm:text-[16px]">المرسل</label>
         <input
           type="referrer"
           id="referrer"
@@ -86,11 +86,11 @@ export default function SignUpForm() {
           placeholder="المرسل"
           dir="auto"
           required
-          className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+          className="bg-white w-full h-14 max-sm:h-11 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
         />
       </div>
       <div className="flex flex-col gap-3 items-end">
-        <label className="text-[#043F2E] text-[20px]f">كلمة السر</label>
+        <label className="text-[#043F2E] text-[20px] max-sm:text-[16px]">كلمة السر</label>
         <input
           type="password"
           id="password"
@@ -98,7 +98,7 @@ export default function SignUpForm() {
           required
           placeholder="كلمة السر"
           dir="auto"
-          className="bg-white w-full h-14 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
+          className="bg-white w-full h-14 max-sm:h-11 rounded-[7px] border border-[#043F2E] placeholder:text-end  px-5 focus:placeholder:opacity-0"
         />
       </div>
       {/* ERRORS */}
