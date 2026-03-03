@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import {
   getPoints,
-  getUserActivities,
   addUserActivity,
   deleteUserActivity,
 } from "@/actions/ControlBoard";
@@ -36,6 +35,7 @@ type Activity = {
 type UserPoints = {
   user: number;
   points: number;
+  activities: Activity[];
 };
 
 type PointsResponse = {
@@ -65,20 +65,18 @@ export default function UserRow({
     const fetchData = async () => {
       setIsRowLoading(true);
       try {
-        // Fetch activities for the specific date range
-        const [activitiesData, pointsData] = await Promise.all([
-          getUserActivities(userId, currentYear, currentMonth, weekIndex),
-          getPoints(currentYear, currentMonth, weekIndex),
-        ]);
-
-        // Handle Activities
-        const list = activitiesData.activities || activitiesData || [];
-        setActivitiesList(list);
-
-        // Handle Points
+        const pointsData = await getPoints(
+          currentYear,
+          currentMonth,
+          weekIndex,
+        );
         const pointsRes = pointsData as PointsResponse;
-        const userPointData = pointsRes.points.find((p) => p.user === userId);
-        setPoints(userPointData ? userPointData.points : 0);
+
+        // Find this user's data (which includes BOTH points and activities)
+        const userData = pointsRes.points.find((p) => p.user === userId);
+
+        setPoints(userData ? userData.points : 0);
+        setActivitiesList(userData?.activities || []);
       } catch (error) {
         console.error("Error fetching row data", error);
       } finally {
@@ -118,9 +116,6 @@ export default function UserRow({
     setLoading(true);
 
     try {
-      /* =========================
-       CATEGORY 5 (COUNTER)
-    ========================== */
       if (categoryId === 5) {
         const newCount = Number(count);
 
@@ -159,16 +154,16 @@ export default function UserRow({
       /* =========================
        REFRESH DATA
     ========================== */
-      const [newActivities, pointsData] = await Promise.all([
-        getUserActivities(userId, currentYear, currentMonth, weekIndex),
-        getPoints(currentYear, currentMonth, weekIndex),
-      ]);
-
-      setActivitiesList(newActivities.activities || newActivities || []);
-
+      const pointsData = await getPoints(
+        currentYear,
+        currentMonth,
+        weekIndex,
+      );
       const pointsRes = pointsData as PointsResponse;
-      const userPointData = pointsRes.points.find((p) => p.user === userId);
-      setPoints(userPointData ? userPointData.points : 0);
+      const userData = pointsRes.points.find((p) => p.user === userId);
+
+      setPoints(userData ? userData.points : 0);
+      setActivitiesList(userData?.activities || []);
 
       await fetchWeekData(weekIndex);
     } catch (error) {

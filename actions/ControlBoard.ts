@@ -77,8 +77,6 @@ export async function deleteUserActivity(uid: number, activityId: number) {
       },
     );
 
-    console.log("Delete response status:", response.status);
-
     if (!response.ok) {
       let errorData;
       try {
@@ -429,7 +427,6 @@ export async function getPoints(
     // 🟢 Format dates for backend (YYYY-MM-DD)
     const start = `${startDate.year}-${String(startDate.month).padStart(2, "0")}-${String(startDate.day).padStart(2, "0")}`;
     const end = `${endDate.year}-${String(endDate.month).padStart(2, "0")}-${String(endDate.day).padStart(2, "0")}`;
-    console.log(start, end);
     const query = `?date_after=${start}&date_before=${end}`;
     const response = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
       method: "GET",
