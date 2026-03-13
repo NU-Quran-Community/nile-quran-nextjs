@@ -157,12 +157,12 @@ export default function ControlPanelClient() {
   return (
     <div className="relative flex flex-col min-h-screen items-center bg-[#EBF0EB] overflow-hidden">
       {/* 🟢 Header */}
-      <div className="absolute top-0 left-0 w-full h-[207px] bg-[#BEE663] py-6 z-10">
-        <h2 className={`${tajawal.className} text-4xl font-bold text-end pr-28 text-[#043F2E]`}>لوحة التحكم</h2>
+      <div className="absolute top-0 left-0 w-full h-[207px] max-sm:h-[130px] bg-[#BEE663] py-6 z-10">
+        <p className={`${tajawal.className} text-4xl font-bold text-end pr-28 text-[#043F2E] max-sm:pr-5`}>لوحة التحكم</p>
       </div>
 
       {/* 🟢 Content */}
-      <div className="relative z-20 container mt-28 p-6 flex flex-col gap-15">
+      <div className="relative z-20 container mt-28 max-sm:mt-12 p-6 flex flex-col gap-15">
         {/* Progress Bar */}
         <div className="w-full h-[123px] bg-[#F7FBEA] p-7 gap-5 border border-[#043F2E] rounded-2xl flex">
           <div className="relative flex-1 h-[35px]">
