@@ -100,7 +100,10 @@ export default function PerformanceBoardClient({
 
   if (isLoading) {
     return (
-      <div className="w-[800px] max-sm:w-full   p-6 h-full overflow-hidden max-sm:p-0" dir="rtl">
+      <div
+        className="w-[800px] max-sm:w-full   p-6 h-full overflow-hidden max-sm:p-0"
+        dir="rtl"
+      >
         <h2 className="text-2xl font-bold text-center mb-8 text-[#2C5234]">
           لوحة الاداءات - {getHijriMonth(monthIndex)}-{year}
         </h2>
@@ -116,7 +119,10 @@ export default function PerformanceBoardClient({
 
   if (error) {
     return (
-      <div className="w-[800px] max-sm:w-full max-w-6xl  p-6 h-[530px]" dir="rtl">
+      <div
+        className="w-[800px] max-sm:w-full max-w-6xl  p-6 h-[530px]"
+        dir="rtl"
+      >
         <h2 className="text-2xl font-bold text-center mb-8 text-[#2C5234]">
           لوحة الاداءات - {getHijriMonth(monthIndex)} - {toArabicDigits(year)}
         </h2>
@@ -200,62 +206,66 @@ export default function PerformanceBoardClient({
 
       <div className="bg-[#F7FBEA] rounded-xl p-8 shadow-sm relative border border-[#043F2E] ">
         <div className="w-full overflow-x-auto overflow-y-hidden max-sm:pb-4">
-        <div className="relative  flex items-end justify-evenly gap-4 border-b-2 border-b-[#043F2E] w-full px-4 ">
-          {sortedData.map((user, index) => {
-            const maxBarHeight = 200;
-            const minBarHeight = 50;
-            const normalized = maxPoints > 0 ? user.points / maxPoints : 0;
-            const heightPx = Math.max(normalized * maxBarHeight, minBarHeight);
+          <div className="relative  flex items-end justify-evenly gap-4 border-b-2 border-b-[#043F2E] w-full px-4 ">
+            {sortedData.map((user, index) => {
+              if (user?.groups?.includes("Student")) {
+                const maxBarHeight = 200;
+                const minBarHeight = 50;
+                const normalized = maxPoints > 0 ? user.points / maxPoints : 0;
+                const heightPx = Math.max(
+                  normalized * maxBarHeight,
+                  minBarHeight,
+                );
 
-            return (
-              <motion.div
-                key={user.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="flex flex-col items-center justify-end gap-2 w-28 relative"
-              >
-                <div className="flex flex-col items-center justify-end">
-                  <div className="relative flex flex-col items-center">
-                    <div className="flex items-end justify-center h-[280px]">
-                      <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: `${heightPx}px` }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: index * 0.08,
-                        }}
-                        className={`w-20 ${getBarColors(
-                          user.points,
-                        )} rounded-t-lg flex items-center justify-center relative`}
-                      >
-                        <div className="absolute -top-20 flex flex-col items-center">
-                          <div className="w-12 h-12 rounded-full bg-gray-300 border-2 border-[#9ADD00] flex items-center justify-center shadow-md">
-                            <span className="text-lg font-bold text-gray-600">
-                              {user.name.charAt(0)}
+                return (
+                  <motion.div
+                    key={user.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 }}
+                    className="flex flex-col items-center justify-end gap-2 w-28 relative"
+                  >
+                    <div className="flex flex-col items-center justify-end">
+                      <div className="relative flex flex-col items-center">
+                        <div className="flex items-end justify-center h-[280px]">
+                          <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ height: `${heightPx}px` }}
+                            transition={{
+                              duration: 0.6,
+                              ease: "easeOut",
+                              delay: index * 0.08,
+                            }}
+                            className={`w-20 ${getBarColors(
+                              user.points,
+                            )} rounded-t-lg flex items-center justify-center relative`}
+                          >
+                            <div className="absolute -top-20 flex flex-col items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 border-2 border-[#9ADD00] flex items-center justify-center shadow-md">
+                                <span className="text-lg font-bold text-gray-600">
+                                  {user.name.charAt(0)}
+                                </span>
+                              </div>
+                              <p className="text-xs text-[#043F2E] font-bold mt-1 text-center whitespace-nowrap max-w-[90px] flex justify-center">
+                                {user.name}
+                              </p>
+                            </div>
+
+                            <span className="text-[#043F2E] font-bold text-sm whitespace-nowrap">
+                              {user.points}
                             </span>
-                          </div>
-                          <p className="text-xs text-[#043F2E] font-bold mt-1 text-center whitespace-nowrap max-w-[90px] flex justify-center">
-                            {user.name}
-                          </p>
+                          </motion.div>
                         </div>
-
-                        <span className="text-[#043F2E] font-bold text-sm whitespace-nowrap">
-                          {user.points}
-                        </span>
-                      </motion.div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                  </motion.div>
+                );
+              }
+            })}
+          </div>
         </div>
-</div>
         <NavigationButtons />
       </div>
-      
     </div>
   );
 }
