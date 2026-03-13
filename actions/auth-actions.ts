@@ -5,16 +5,19 @@ import createUser from "@/lib/user";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+
 const API_BASE = process.env.BASE_URL;
 
 const COOKIE_NAME1 = "access";
 const COOKIE_NAME2 = "refresh";
+
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax" as const,
   path: "/",
 };
+
 interface FormState {
   errors: {
     firstName?: string;
@@ -25,6 +28,7 @@ interface FormState {
     password?: string;
   };
 }
+
 interface SignupErrors {
   firstName?: string;
   lastName?: string;
@@ -43,26 +47,25 @@ export async function login(
 
   const existingUser = await Login(username, password);
 
-  console.log(existingUser);
-
   if (!existingUser.access) {
     return {
       errors: {
-        email: existingUser?.detail || "فشل تسجيل الدخول، تحقق من بياناتك.",
+        email: existingUser?.detail || "فشل تسجيل الدخول، تأكد من اسم المستخدم وكلمة المرور.",
       },
     };
   }
 
   if (existingUser.access) {
     const cookieStore = await cookies();
-    // This will overwrite any old/invalid tokens
+
     await cookieStore.set(COOKIE_NAME1, existingUser.access, COOKIE_OPTIONS);
     await cookieStore.set(COOKIE_NAME2, existingUser.refresh, COOKIE_OPTIONS);
+
     redirect("/");
   } else {
     return {
       errors: {
-        email: `Error fetching user by email: ${existingUser.detail}`,
+        email: `حدث خطأ أثناء تسجيل الدخول: ${existingUser.detail}`,
       },
     };
   }
@@ -72,6 +75,7 @@ export async function logout() {
   const cookieStore = await cookies();
   cookieStore.delete("access");
   cookieStore.delete("refresh");
+
   redirect("/auth");
 }
 
@@ -80,7 +84,6 @@ function isAccessTokenExpired(token: string): boolean {
     const decoded = jwtDecode<JwtPayload>(token);
     const now = Date.now() / 1000;
 
-    // `exp` is optional in JwtPayload, so handle it safely
     if (!decoded.exp) return true;
 
     return decoded.exp < now;
@@ -92,7 +95,8 @@ function isAccessTokenExpired(token: string): boolean {
 async function refreshAccessToken() {
   const cookieStore = await cookies();
   const refresh = cookieStore.get("refresh");
-  if (!refresh) throw new Error("No refresh token");
+
+  if (!refresh) throw new Error("لا يوجد رمز تحديث");
 
   const res = await fetch(`${API_BASE}auth/refresh/`, {
     method: "POST",
@@ -100,21 +104,23 @@ async function refreshAccessToken() {
     body: JSON.stringify({ refresh: refresh.value }),
   });
 
-  if (!res.ok) throw new Error("Refresh token expired or invalid");
+  if (!res.ok) throw new Error("رمز التحديث منتهي أو غير صالح");
 
   const data = await res.json();
+
   await cookieStore.set("access", data.access, COOKIE_OPTIONS);
+
   return data.access;
 }
 
-// This function just checks validity, doesn't modify cookies
 export async function checkTokenValidity() {
   const cookieStore = await cookies();
   const access = cookieStore.get("access");
   const refresh = cookieStore.get("refresh");
+
   const user = access ? await getUserRole(access.value) : undefined;
+
   if (!refresh) {
-    console.log("❌ No refresh token — user must log in again");
     return {
       isValid: false,
       user: user,
@@ -122,7 +128,6 @@ export async function checkTokenValidity() {
   }
 
   if (access && !isAccessTokenExpired(access.value)) {
-    console.log("✅ Access token still valid");
     return {
       isValid: true,
       user: user,
@@ -131,15 +136,12 @@ export async function checkTokenValidity() {
 
   try {
     await refreshAccessToken();
-    console.log("🔄 Access token refreshed successfully");
+
     return {
       isValid: true,
       user: user,
     };
   } catch {
-    console.log("❌ Both tokens invalid — must log in again");
-    // Don't delete cookies here - just return false
-    // User will be redirected to /auth where login will overwrite them
     return {
       isValid: false,
       user: user,
@@ -157,76 +159,74 @@ export async function signup(prevState: FormState, formData: FormData) {
 
   const errors: SignupErrors = {};
 
-  // First Name validation
+  // First Name
   if (!firstName || firstName.trim().length === 0) {
-    errors.firstName = "First name is required";
+    errors.firstName = "الاسم الأول مطلوب";
   } else if (firstName.trim().length < 2) {
-    errors.firstName = "First name must be at least 2 characters long";
+    errors.firstName = "يجب أن يحتوي الاسم الأول على حرفين على الأقل";
   } else if (firstName.trim().length > 50) {
-    errors.firstName = "First name must be less than 50 characters";
+    errors.firstName = "يجب ألا يتجاوز الاسم الأول 50 حرفًا";
   } else if (
     !/^[\u0621-\u064A\u0660-\u0669a-zA-Z\s'-]+$/.test(firstName.trim())
   ) {
     errors.firstName =
-      "Only Arabic or English letters, spaces, hyphens, and apostrophes are allowed";
+      "يسمح فقط بالحروف العربية أو الإنجليزية والمسافات والواصلات";
   }
 
-  // Last Name validation
+  // Last Name
   if (!lastName || lastName.trim().length === 0) {
-    errors.lastName = "Last name is required";
+    errors.lastName = "اسم العائلة مطلوب";
   } else if (lastName.trim().length < 2) {
-    errors.lastName = "Last name must be at least 2 characters long";
+    errors.lastName = "يجب أن يحتوي اسم العائلة على حرفين على الأقل";
   } else if (lastName.trim().length > 50) {
-    errors.lastName = "Last name must be less than 50 characters";
+    errors.lastName = "يجب ألا يتجاوز اسم العائلة 50 حرفًا";
   } else if (
     !/^[\u0621-\u064A\u0660-\u0669a-zA-Z\s'-]+$/.test(lastName.trim())
   ) {
     errors.lastName =
-      "Only Arabic or English letters, spaces, hyphens, and apostrophes are allowed";
+      "يسمح فقط بالحروف العربية أو الإنجليزية والمسافات والواصلات";
   }
 
-  // Email validation
+  // Email
   if (!email || email.trim().length === 0) {
-    errors.email = "Email address is required";
+    errors.email = "البريد الإلكتروني مطلوب";
   } else if (!email.includes("@")) {
-    errors.email = "Please enter a valid email address";
+    errors.email = "يرجى إدخال بريد إلكتروني صحيح";
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-    errors.email = "Please enter a valid email address";
+    errors.email = "يرجى إدخال بريد إلكتروني صحيح";
   } else if (email.trim().length > 254) {
-    errors.email = "Email address is too long";
+    errors.email = "البريد الإلكتروني طويل جدًا";
   }
 
-  // Referrer validation
+  // Referrer
   if (!referrer || referrer.trim().length === 0) {
-    errors.referrer = "Referrer selection is required";
+    errors.referrer = "يجب اختيار جهة الإحالة";
   }
 
-  // Phone Number validation
+  // Username
   if (!username || username.trim().length === 0) {
-    errors.username = "username is required";
+    errors.username = "اسم المستخدم مطلوب";
   }
 
-  // Password validation
+  // Password
   if (!password || password.length === 0) {
-    errors.password = "Password is required";
+    errors.password = "كلمة المرور مطلوبة";
   } else if (password.length < 8) {
-    errors.password = "Password must be at least 8 characters long";
+    errors.password = "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل";
   } else if (password.length > 128) {
-    errors.password = "Password must be less than 128 characters";
+    errors.password = "كلمة المرور طويلة جدًا";
   } else if (!/(?=.*[a-z])/.test(password)) {
-    errors.password = "Password must contain at least one lowercase letter";
+    errors.password = "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل";
   } else if (!/(?=.*[A-Z])/.test(password)) {
-    errors.password = "Password must contain at least one uppercase letter";
+    errors.password = "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل";
   } else if (!/(?=.*\d)/.test(password)) {
-    errors.password = "Password must contain at least one number";
+    errors.password = "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل";
   } else if (!/(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/.test(password)) {
-    errors.password = "Password must contain at least one special character";
+    errors.password = "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل";
   }
 
   if (Object.keys(errors).length > 0) {
-    return {
-      errors,
-    };
+    return { errors };
   }
 
   try {
@@ -240,12 +240,11 @@ export async function signup(prevState: FormState, formData: FormData) {
     });
 
     if (result?.errors) {
-      return result; // handle backend validation errors
+      return result;
     }
 
-    redirect("/auth"); // will throw NEXT_REDIRECT internally
+    redirect("/auth");
   } catch (error: unknown) {
-    // ✅ Ignore NEXT_REDIRECT (it's expected)
     if (
       typeof error === "object" &&
       error !== null &&
@@ -253,14 +252,12 @@ export async function signup(prevState: FormState, formData: FormData) {
       typeof (error as { digest?: string }).digest === "string" &&
       (error as { digest: string }).digest.startsWith("NEXT_REDIRECT")
     ) {
-      throw error; // Let Next.js handle redirect
+      throw error;
     }
-
-    console.error("Signup error:", error);
 
     return {
       errors: {
-        email: "An unexpected error occurred. Please try again.",
+        email: "حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى.",
       },
     };
   }
