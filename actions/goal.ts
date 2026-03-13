@@ -51,7 +51,6 @@ export async function getGoalOfTheMonth(
       2,
       "0",
     )}-${String(endDate.day).padStart(2, "0")}`;
-    console.log("goal", start, end);
     const query = `?date_after=${start}&date_before=${end}`;
     const response = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
       method: "GET",

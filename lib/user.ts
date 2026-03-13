@@ -18,7 +18,6 @@ export async function Login(username: string, password: string) {
     });
 
     const result = await response.json();
-    console.log(result);
 
     if (!response.ok) {
       if (response.status === 404 || response.status === 401) {
@@ -45,7 +44,6 @@ export async function Login(username: string, password: string) {
       };
     }
 
-    console.log("User fetched successfully:", result);
     return result;
   } catch (error: unknown) {
     console.error("Error fetching user by email:", error);
@@ -85,7 +83,6 @@ export default async function createUser({
       referrer,
     };
 
-    console.log("Sending user data:", userData);
 
     const response = await fetch(`${API_BASE}api/v1/users/`, {
       method: "POST",
@@ -96,8 +93,7 @@ export default async function createUser({
     });
 
     const result = await response.json();
-    console.log("Response status:", response.status);
-    console.log("Response body:", result);
+
 
     if (!response.ok) {
       // Handle specific error cases
@@ -119,7 +115,7 @@ export default async function createUser({
       };
     }
 
-    console.log("User created successfully:", result);
+
     return { success: true, data: result };
   } catch (error: unknown) {
     console.error("Error creating user:", error);
@@ -152,7 +148,6 @@ export async function getUserRole(token: string) {
     });
 
     const result = await response.json();
-    console.log(result);
 
     if (!response.ok) {
       if (response.status === 404 || response.status === 401) {
@@ -170,7 +165,6 @@ export async function getUserRole(token: string) {
       };
     }
 
-    console.log("User fetched successfully:", result);
     return result;
   } catch (error: unknown) {
     console.error("Error fetching user :", error);

@@ -85,10 +85,10 @@ export default function UserRow({
     };
 
     // Only fetch if we have valid dates
-    if (currentYear && currentMonth && currentWeek) {
+    if (currentYear && currentMonth && weekIndex) {
       fetchData();
     }
-  }, [userId, currentYear, currentMonth, weekIndex, currentWeek]);
+  }, [userId, currentYear, currentMonth, weekIndex]);
 
   // Handle checkbox input
   const handleInput = async (

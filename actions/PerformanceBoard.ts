@@ -77,7 +77,6 @@ export async function getLeaderboardData(year: number, month: number) {
       2,
       "0",
     )}-${String(endDate.day).padStart(2, "0")}`;
-    console.log("board", start, end);
 
     const query = `?date_after=${start}&date_before=${end}`;
     const result = await fetch(`${API_BASE}api/v1/users/points/${query}`, {
@@ -97,7 +96,6 @@ export async function getLeaderboardData(year: number, month: number) {
 
     const data: APIResponse = await result.json();
 
-    console.log("API Response:", JSON.stringify(data, null, 2));
 
     // Handle different possible response structures
     let results: LeaderboardItem[] = [];
@@ -111,7 +109,6 @@ export async function getLeaderboardData(year: number, month: number) {
     }
 
     if (results.length === 0) {
-      console.log("No results found in API response");
       return {
         success: true,
         data: [],
