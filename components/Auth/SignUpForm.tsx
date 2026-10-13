@@ -1,5 +1,6 @@
 "use client";
 import { Tajawal } from "next/font/google";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, Mail, AtSign, UserPlus } from "lucide-react";
@@ -14,9 +15,14 @@ const tajawal = Tajawal({
   weight: "700",
 });
 
-function inputClass(hasError: boolean, withIcon: boolean) {
+interface Props {
+  referrer?: string;
+}
+
+function inputClass(hasError: boolean, withIcon: boolean, locked = false) {
   return [
-    "bg-white w-full h-14 max-sm:h-11 rounded-[7px] border placeholder:text-end outline-none focus:placeholder:opacity-0 transition-colors",
+    "w-full h-14 max-sm:h-11 rounded-[7px] border placeholder:text-end outline-none focus:placeholder:opacity-0 transition-colors",
+    locked ? "bg-[#F7FBEA] cursor-not-allowed" : "bg-white",
     hasError
       ? "border-[#9B3D2E] focus:border-[#9B3D2E]"
       : "border-[#043F2E] focus:border-[#043F2E]",
@@ -30,7 +36,12 @@ const API_FIELD_ALIASES: Record<string, keyof SignupValues> = {
   last_name: "lastName",
 };
 
-export default function SignUpForm() {
+export default function SignUpForm({ referrer }: Props) {
+  // An invite link names the referrer, so the invitee doesn't retype it. The
+  // lock lifts if the API rejects that username, or a mistyped link would leave
+  // the invitee stuck behind a field they can't fix.
+  const [referrerLocked, setReferrerLocked] = useState(!!referrer);
+
   const {
     register,
     handleSubmit,
@@ -44,7 +55,7 @@ export default function SignUpForm() {
       lastName: "",
       email: "",
       username: "",
-      referrer: "",
+      referrer: referrer || "",
       password: "",
     },
   });
@@ -56,6 +67,7 @@ export default function SignUpForm() {
       const target = API_FIELD_ALIASES[field] ?? field;
       const known = target in signupSchema.shape;
       setError(known ? (target as keyof SignupValues) : "root", { message });
+      if (target === "referrer") setReferrerLocked(false);
     }
   });
 
@@ -163,12 +175,16 @@ export default function SignUpForm() {
             id="referrer"
             placeholder="اسم المستخدم لمن دعاك"
             dir="auto"
-            className={inputClass(!!errors.referrer, true)}
+            className={inputClass(!!errors.referrer, true, referrerLocked)}
             aria-invalid={!!errors.referrer}
             aria-describedby={errors.referrer ? "referrer-error" : undefined}
+            readOnly={referrerLocked}
             {...register("referrer")}
           />
         </div>
+        {referrerLocked && (
+          <p className="text-xs font-medium text-[#043F2E]/60">تمت إضافته تلقائيًا من رابط الدعوة</p>
+        )}
         <FieldError id="referrer-error" message={errors.referrer?.message} />
       </div>
       <div className="flex flex-col gap-3 items-end">
