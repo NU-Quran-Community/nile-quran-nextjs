@@ -7,14 +7,16 @@ import { checkTokenValidity } from "@/actions/auth-actions";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ mode?: string; pending?: string }>;
+  searchParams: Promise<{ mode?: string; pending?: string; referrer?: string }>;
 }) {
   const User = await checkTokenValidity();
   if (User.isValid) {
     redirect("/");
   }
-  const { mode, pending } = await searchParams;
+  const { mode, pending, referrer } = await searchParams;
   const formMode = mode || "login";
+  // A blank or whitespace-only value would lock an empty referrer field
+  const invitedBy = referrer?.trim() || undefined;
   return (
     <div className="w-full py-10 min-h-screen bg-[#EBF0EB] flex items-start justify-center px-5 max-sm:py-7">
       <div className="relative w-full h-full flex flex-col justify-center items-center lg:items-start lg:pl-44">
@@ -50,7 +52,7 @@ export default async function Page({
             }}
           />
         </div>
-        <Auth mode={formMode} pending={pending === "1"} />
+        <Auth mode={formMode} pending={pending === "1"} referrer={invitedBy} />
       </div>
     </div>
   );

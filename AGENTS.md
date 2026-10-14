@@ -261,7 +261,9 @@ components/
                         # NavBarMobileMenu.tsx, ProfileCompletionNag.tsx (nag modal, see §1 Community Profile),
                         # LogoutButton.tsx, NavLinks.tsx, navLinkItems.ts
   Profile/              # EditOwnProfile.tsx, PersonalInfoSection.tsx (community profile form/summary,
-                        # see §1), ProfileActivityList.tsx, ProfileHeader.tsx,
+                        # see §1), InviteFriend.tsx (invite button + modal with the
+                        # member's signup link, ?referrer=<username>, own profile only),
+                        # ProfileActivityList.tsx, ProfileHeader.tsx,
                         # ProfileMetaInfo.tsx, ProfileRoleTabs.tsx, QuietMembersCard.tsx,
                         # RoleBadge.tsx, SectionHeading.tsx, StatTile.tsx,
                         # views/StudentProfileView.tsx, views/SupervisorProfileView.tsx

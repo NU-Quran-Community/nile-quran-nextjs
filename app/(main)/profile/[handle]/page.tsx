@@ -28,6 +28,7 @@ import EditOwnProfile from "@/components/Profile/EditOwnProfile";
 import ProfileRoleTabs, { type ProfileRoleView } from "@/components/Profile/ProfileRoleTabs";
 import SupervisorProfileView from "@/components/Profile/views/SupervisorProfileView";
 import StudentProfileView from "@/components/Profile/views/StudentProfileView";
+import InviteFriend from "@/components/Profile/InviteFriend";
 
 import { toArabicDigits, getHijriMonth } from "@/lib/utils";
 import {
@@ -222,12 +223,15 @@ export default async function ProfilePage({
             groups={groups}
             supervisor={isStudent ? supervisorInfo : null}
             action={
-              <EditOwnProfile
-                userId={targetUser.id}
-                firstName={targetUser.first_name}
-                lastName={targetUser.last_name}
-                email={targetUser.email}
-              />
+              <div className="flex items-center gap-2 flex-wrap">
+                <EditOwnProfile
+                  userId={targetUser.id}
+                  firstName={targetUser.first_name}
+                  lastName={targetUser.last_name}
+                  email={targetUser.email}
+                />
+                <InviteFriend username={targetUser.username} />
+              </div>
             }
           />
 

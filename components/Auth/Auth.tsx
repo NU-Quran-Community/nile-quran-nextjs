@@ -12,9 +12,11 @@ interface Props {
   mode: string;
   /** Arrived here straight from a successful signup */
   pending?: boolean;
+  /** Referrer's username, from an invite link */
+  referrer?: string;
 }
 
-export default function AuthForm({ mode, pending }: Props) {
+export default function AuthForm({ mode, pending, referrer }: Props) {
   return (
     <div className="w-full max-w-[630px] flex z-30 flex-col items-center justify-center h-full">
       <p className={`text-[54px] text-[#043F2E] max-sm:text-[38px] ${lalezar.className}`}>
@@ -51,7 +53,7 @@ export default function AuthForm({ mode, pending }: Props) {
             </span>
           </div>
         )}
-        {mode === "login" ? <LoginForm /> : <SignUpForm />}
+        {mode === "login" ? <LoginForm /> : <SignUpForm referrer={referrer} />}
       </div>
     </div>
   );
