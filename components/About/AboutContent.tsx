@@ -292,14 +292,8 @@ export default function AboutContent() {
             <p
               className={`${tajawal.className} text-[15px] md:text-base leading-[1.95] text-[#043F2E]/85 font-normal`}
             >
-              نريد أن يكون مجتمع مقرأة النيل مساحة يجد فيها الشاب صحبة صالحة تعينه على الثبات،
-              وتذكره بالله، وتجمعه حول القرآن والوحي.
-            </p>
-            <p
-              className={`${tajawal.className} text-[15px] md:text-base leading-[1.95] text-[#043F2E]/85 font-normal`}
-            >
               نريد مجتمعًا يساعد أفراده على استعادة مركزية الدين في حياتهم، والاعتزاز بهويتهم، والعمل
-              لأمتهم، وبناء علاقة أعمق مع كتاب الله.
+              لأمتهم، وبناء علاقة أعمق مع كتاب الله و سنة رسوله.
             </p>
           </div>
         </Section>
